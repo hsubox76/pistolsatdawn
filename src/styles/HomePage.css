@@ -1,0 +1,14 @@
+.home-container {
+  padding: 10px;
+}
+
+.home-container .arguments-box {
+  border: 1px solid #7496b9;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.home-container h3 {
+  color: #444;
+  margin: 0;
+}
