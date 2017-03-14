@@ -1,13 +1,14 @@
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar = (props) => (
   <div className="navbar">
-    <div className="navbar-link">pistols at dawn</div>
+    <div className="navbar-link"><Link to="/">pistols at dawn</Link></div>
     <div className="submenu">
-      <div className="navbar-link" onClick={() => props.setPage('duel')}>duel</div>
+      <div className="navbar-link"><Link to="/">home</Link></div>
       {props.user
         ? <div className="navbar-link" onClick={() => props.onLogout()}>logout</div>
-        : <div className="navbar-link" onClick={() => props.setPage('login')}>login</div>}
+        : <div className="navbar-link"><Link to="/login">login</Link></div>}
     </div>
   </div>
 );

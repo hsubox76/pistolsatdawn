@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router-dom';
 import firebase from 'firebase';
 
 import '../styles/HomePage.css';
@@ -35,6 +36,7 @@ class HomePage extends Component {
     });
     db.ref(`users/${this.props.user.uid}/argumentsParticipating`)
       .set(argParticipating.concat(newArgumentKey));
+    this.setState({ startArgumentFormOpen: false });
   }
   render() {
     const argParticipating = this.props.userData && this.props.userData.argumentsParticipating;
@@ -58,17 +60,28 @@ class HomePage extends Component {
         className='button'
         onClick={() => this.setState({ startArgumentFormOpen: true })}
       >
-        Start an argument
+        Start a new argument
       </div>
     );
+    if (!this.props.user) {
+      return <div>{this.props.route}</div>
+    }
     return (
       <div className='home-container'>
         <h2>Welcome {this.props.user.displayName}</h2>
         <div className='arguments-box arguments-participating'>
           <h3>Arguments You're Having</h3>
-          <div className='arguments-participating-list'>
+          <div className='arguments-list arguments-participating-list'>
             {argParticipating && argParticipating.map(argumentKey => {
-              return <div key={argumentKey}>{argumentKey} {this.state[argumentKey] && this.state[argumentKey].title}</div>
+              return (
+                <Link
+                  key={argumentKey}
+                  className="argument-link"
+                  to={`duel/${argumentKey}`}
+                >
+                  {this.state[argumentKey] && this.state[argumentKey].title}
+                </Link>
+              );
             })}
           </div>
           {this.state.startArgumentFormOpen && startArgumentForm}
@@ -83,7 +96,8 @@ class HomePage extends Component {
 }
 
 HomePage.propTypes = {
-  user: PropTypes.object
+  user: PropTypes.object,
+  onArgumentClick: PropTypes.func
 };
 
 export default HomePage;

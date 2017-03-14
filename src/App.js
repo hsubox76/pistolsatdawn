@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import {
+  BrowserRouter as Router,
+  Route
+} from 'react-router-dom';
 import firebase from 'firebase';
 
 import './App.css';
@@ -24,7 +28,8 @@ class App extends Component {
     this.state = {
       page: 'none',
       user: null,
-      userData: null
+      userData: null,
+      currentArgument: null
     };
   }
   componentDidMount() {
@@ -41,34 +46,44 @@ class App extends Component {
       }
     });
   }
+  handleArgumentClick(argumentId) {
+    this.setState({
+      currentArgument: argumentId,
+      page: 'duel'
+    });
+  }
   render() {
-    let page = <div>loading</div>;
-    switch(this.state.page) {
-      case('login'):
-        page = <LoginPage user={this.state.user} />;
-        break;
-      case('home'):
-        if (this.state.user && this.state.userData) {
-          page = <HomePage user={this.state.user} userData={this.state.userData} />;
-        }
-        break;
-      case('duel'):
-        page = <DuelPage />;
-        break;
-      default:
-        page = <div>loading</div>;
-    }
     return (
-      <div className="app">
-        <Navbar
-          setPage={(page) => this.setState({ page })}
-          user={this.state.user}
-          onLogout={() => firebase.auth().signOut()}
-        />
-        <div className="main-container">
-          {page}
+      <Router>
+        <div className="app">
+          <Navbar
+            setPage={(page) => this.setState({ page })}
+            user={this.state.user}
+            onLogout={() => firebase.auth().signOut()}
+          />
+          <div className="main-container">
+            <Route exact path="/" render={() => {
+              if (this.state.user && this.state.userData) {
+                return (
+                  <HomePage
+                    user={this.state.user}
+                    userData={this.state.userData}
+                    onArgumentClick={(argumentId) => this.handleArgumentClick(argumentId)}
+                  />
+                );
+              } else {
+                return <div>loading...</div>
+              }
+            }} />
+            <Route path="/login" render={() => (
+              <LoginPage user={this.state.user} />
+            )} />
+            <Route path="/duel/:id" render={({match}) => (
+              <DuelPage argumentId={match.params.id} />
+            )} />
+          </div>
         </div>
-      </div>
+      </Router>
     );
   }
 }

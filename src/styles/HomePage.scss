@@ -1,0 +1,35 @@
+@import "colors.scss";
+
+.home-container {
+  padding: 10px;
+}
+
+.home-container .arguments-box {
+  border: 1px solid $light-blue;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.home-container h3 {
+  color: #444;
+  margin: 0;
+}
+
+.arguments-list {
+  padding: 5px;
+}
+
+.argument-link {
+  margin: 5px 0;
+  display: block;
+  cursor: pointer;
+}
+
+a.argument-link {
+  color: $link-color;
+  text-decoration: none;
+
+  &:hover {
+    color: $link-hover-color;
+  }
+}
