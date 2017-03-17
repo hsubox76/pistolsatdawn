@@ -27,6 +27,9 @@ class LoginPage extends Component {
         })
         .then(user => {
           return firebase.database().ref('users').child(user.uid).set({
+            // This doesn't need to be here but I need to keep this entry from disappearing
+            // when I wipe argumentsParticipating
+            displayName: this._displayName.value,
             argumentsParticipating: []
           });
         })

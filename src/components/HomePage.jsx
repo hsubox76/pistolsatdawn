@@ -27,7 +27,8 @@ class HomePage extends Component {
     const argParticipating = this.props.userData.argumentsParticipating || [];
     const newArgumentKey = db.ref('arguments').push({
       title: this._argumentTitle.value,
-      usersParticipating: [this.props.user.uid]
+      messages: [],
+      originator: this.props.user.uid
     }).key;
     db.ref(`arguments/${newArgumentKey}`).on('value', snapshot => {
       if (snapshot.val()) {

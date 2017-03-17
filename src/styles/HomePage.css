@@ -1,13 +1,20 @@
 .home-container {
-  padding: 10px; }
+  padding: 10px;
+  background-color: #8BBDB2;
+  color: #fff;
+  width: 100%; }
 
 .home-container .arguments-box {
-  border: 1px solid #7496b9;
+  background-color: #2D3E50;
   padding: 10px;
-  margin: 10px 0; }
+  margin: 10px 0;
+  max-width: 600px; }
+
+.home-container h2 {
+  font-weight: normal; }
 
 .home-container h3 {
-  color: #444;
+  font-weight: normal;
   margin: 0; }
 
 .arguments-list {
@@ -19,8 +26,16 @@
   cursor: pointer; }
 
 a.argument-link {
-  color: blue;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  color: #333;
+  background-color: #F9EEC0;
   text-decoration: none; }
 
 a.argument-link:hover {
-  color: deepskyblue; }
+  color: #555; }
+
+.start-argument-form {
+  border: 1px solid #fff;
+  padding: 10px; }

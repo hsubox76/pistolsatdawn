@@ -1,17 +1,33 @@
 @import "colors.scss";
 
+$home-link-color: $dark-grey;
+$home-link-hover-color: #555;
+
+$home-light-color: #F9EEC0;
+
+$home-background-main: #8BBDB2;
+$home-background-dark: #2D3E50;
+
 .home-container {
   padding: 10px;
+  background-color: $home-background-main;
+  color: $white;
+  width: 100%;
 }
 
 .home-container .arguments-box {
-  border: 1px solid $light-blue;
+  background-color: $home-background-dark;
   padding: 10px;
   margin: 10px 0;
+  max-width: 600px;
+}
+
+.home-container h2 {
+  font-weight: normal;
 }
 
 .home-container h3 {
-  color: #444;
+  font-weight: normal;
   margin: 0;
 }
 
@@ -26,10 +42,19 @@
 }
 
 a.argument-link {
-  color: $link-color;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  color: $home-link-color;
+  background-color: $home-light-color;
   text-decoration: none;
 
   &:hover {
-    color: $link-hover-color;
+    color: $home-link-hover-color;
   }
+}
+
+.start-argument-form {
+  border: 1px solid $white;
+  padding: 10px;
 }
