@@ -45,7 +45,7 @@ class HomePage extends Component {
       <div className='start-argument-form'>
         <input
           type="text"
-          placeholder="title of argument"
+          placeholder="a short description of this argument"
           ref={node => this._argumentTitle = node}
         />
         <div
@@ -74,13 +74,14 @@ class HomePage extends Component {
           <h3>Arguments You're Having</h3>
           <div className='arguments-list arguments-participating-list'>
             {argParticipating && argParticipating.map(argumentKey => {
-              return (
+              return this.state[argumentKey] && (
                 <Link
                   key={argumentKey}
                   className="argument-link"
                   to={`duel/${argumentKey}`}
                 >
-                  {this.state[argumentKey] && this.state[argumentKey].title}
+                  <div className="argument-title">{this.state[argumentKey].title}</div>
+                  <div>Participants: {this.state[argumentKey].originator}</div>
                 </Link>
               );
             })}

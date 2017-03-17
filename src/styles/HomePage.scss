@@ -1,12 +1,13 @@
 @import "colors.scss";
 
-$home-link-color: $dark-grey;
-$home-link-hover-color: #555;
+$home-link-color: $clouds;
 
-$home-light-color: #F9EEC0;
+$home-link-hover-background-color: $emerald;
 
-$home-background-main: #8BBDB2;
-$home-background-dark: #2D3E50;
+$home-light-color: $turquoise;
+
+$home-background-main: $wet-asphalt;
+$home-background-dark: $green-sea;
 
 .home-container {
   padding: 10px;
@@ -23,11 +24,11 @@ $home-background-dark: #2D3E50;
 }
 
 .home-container h2 {
-  font-weight: normal;
+  font-weight: $weight-normal;
 }
 
 .home-container h3 {
-  font-weight: normal;
+  font-weight: $weight-normal;
   margin: 0;
 }
 
@@ -43,14 +44,19 @@ $home-background-dark: #2D3E50;
 
 a.argument-link {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   padding: 5px;
   color: $home-link-color;
   background-color: $home-light-color;
   text-decoration: none;
 
+  .argument-title {
+    font-weight: $weight-bold;
+  }
+
   &:hover {
-    color: $home-link-hover-color;
+    background-color: $home-link-hover-background-color;
   }
 }
 

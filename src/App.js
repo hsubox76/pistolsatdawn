@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
-  Route
+  Route,
+  Redirect
 } from 'react-router-dom';
 import firebase from 'firebase';
 
@@ -27,6 +28,7 @@ class App extends Component {
     super(props);
     this.state = {
       page: 'none',
+      finishedAuthCheck: false,
       user: null,
       userData: null,
       currentArgument: null
@@ -34,15 +36,16 @@ class App extends Component {
   }
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
+      this.setState({ finishedAuthCheck: false });
       if (user) {
         this.setState({ page: 'home', user });
         const userPath = `users/${user.uid}`;
         firebase.database().ref(userPath).on('value', (snapshot) => {
           const userData = snapshot.val() || {};
-          this.setState({ userData });
+          this.setState({ userData, finishedAuthCheck: true });
         })
       } else {
-        this.setState({ page: 'login', user: null });
+        this.setState({ page: 'login', user: null, finishedAuthCheck: true });
       }
     });
   }
@@ -63,6 +66,9 @@ class App extends Component {
           />
           <div className="main-container">
             <Route exact path="/" render={() => {
+              if (!this.state.finishedAuthCheck) {
+                return <div>loading...</div>;
+              }
               if (this.state.user && this.state.userData) {
                 return (
                   <HomePage
@@ -72,12 +78,12 @@ class App extends Component {
                   />
                 );
               } else {
-                return <div>loading...</div>
+                return <Redirect to='/login' />
               }
             }} />
-            <Route path="/login" render={() => (
-              <LoginPage user={this.state.user} />
-            )} />
+            <Route path="/login" render={() => this.state.finishedAuthCheck && this.state.user && this.state.userData
+              ? <Redirect to='/' />
+              : <LoginPage />} />
             <Route path="/duel/:id" render={({match}) => (
               <DuelPage argumentId={match.params.id} />
             )} />
