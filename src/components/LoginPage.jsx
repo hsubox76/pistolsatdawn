@@ -20,15 +20,14 @@ class LoginPage extends Component {
       firebase.auth()
         .createUserWithEmailAndPassword(this._email.value, this._password1.value)
         .then((user) => {
+          const displayName = this._displayName.value;
           return user.updateProfile({
             //TODO: Validate display name
-            displayName: this._displayName.value
-          })
+            displayName
+          }).then(() => user);
         })
         .then(user => {
-          return firebase.database().ref('users').child(user.uid).set({
-            // This doesn't need to be here but I need to keep this entry from disappearing
-            // when I wipe argumentsParticipating
+          return firebase.database().ref(`users/${user.uid}`).set({
             displayName: this._displayName.value,
             argumentsParticipating: []
           });
@@ -60,7 +59,7 @@ class LoginPage extends Component {
         <div className='login-text'>
           <div className='form-title'>log in</div>
           <a className='click' onClick={e => this.onModeClick(e, 'register')}>
-          new? create an account here.
+          new? <b>create an account</b>.
           </a>
         </div>
       )
@@ -68,7 +67,7 @@ class LoginPage extends Component {
         <div className='login-text'>
           <div className='form-title'>create an account</div>
           <a className='click' onClick={e => this.onModeClick(e, 'login')}>
-          already have one? log in here.
+          already have one? <b>go to log in page</b>.
           </a>
         </div>
       );

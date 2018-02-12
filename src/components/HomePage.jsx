@@ -12,12 +12,19 @@ class HomePage extends Component {
     };
   }
   componentDidMount() {
+    const db = firebase.database();
     const dbArguments = firebase.database().ref('arguments');
     const argParticipating = this.props.userData.argumentsParticipating || [];
     argParticipating.forEach(argKey => {
-      dbArguments.child(argKey).on('value', (snapshot) => {
-        if (snapshot.val()) {
-          this.setState({ [argKey]: snapshot.val() });
+      const argument = dbArguments.child(argKey);
+      argument.on('value', (argSnap) => {
+        if (argSnap.val()) {
+          const argumentData = argSnap.val();
+          db.ref(`users/${argumentData.originator}`).once('value', userSnap => {
+            if (userSnap.val()) {
+              this.setState({ [argKey]: Object.assign({}, argumentData, { originator: userSnap.val() }) });
+            }
+          });
         }
       });
     });
@@ -81,7 +88,7 @@ class HomePage extends Component {
                   to={`duel/${argumentKey}`}
                 >
                   <div className="argument-title">{this.state[argumentKey].title}</div>
-                  <div>Participants: {this.state[argumentKey].originator}</div>
+                  <div>Participants: {this.state[argumentKey].originator.displayName}</div>
                 </Link>
               );
             })}

@@ -33,12 +33,10 @@ a.argument-link {
   color: #ecf0f1;
   background-color: #1abc9c;
   text-decoration: none; }
-
-a.argument-link .argument-title {
-  font-weight: 500; }
-
-a.argument-link:hover {
-  background-color: #2ecc71; }
+  a.argument-link .argument-title {
+    font-weight: 500; }
+  a.argument-link:hover {
+    background-color: #2ecc71; }
 
 .start-argument-form {
   border: 1px solid #fff;
