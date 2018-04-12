@@ -1,8 +1,10 @@
 import React from 'react';
 
 const SpectatorBox = (props) => (
-  <div className='spectator-box'>
-    spectator box
+  <div className="column is-half">
+    <div className="box">
+      spectator box
+    </div>
   </div>
 );
 

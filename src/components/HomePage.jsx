@@ -2,8 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router-dom';
 import firebase from 'firebase';
 
-import '../styles/HomePage.css';
-
 class HomePage extends Component {
   constructor(props) {
     super(props);
@@ -49,55 +47,78 @@ class HomePage extends Component {
   render() {
     const argParticipating = this.props.userData && this.props.userData.argumentsParticipating;
     const startArgumentForm = (
-      <div className='start-argument-form'>
-        <input
-          type="text"
-          placeholder="a short description of this argument"
-          ref={node => this._argumentTitle = node}
-        />
+      <form className="content">
+        <div className="field">
+          <label className="label">Description</label>
+          <div className="control">
+            <input
+              type="text"
+              className="input"
+              placeholder="a short description of this argument"
+              ref={node => this._argumentTitle = node}
+            />
+          </div>
+        </div>
         <div
-          className='button'
+          className="button is-info"
           onClick={() => this.handleStartArgument()}
         >
           Start it up
         </div>
-      </div>
-    );
-    const openStartArgumentFormButton = (
-      <div
-        className='button'
-        onClick={() => this.setState({ startArgumentFormOpen: true })}
-      >
-        Start a new argument
-      </div>
+      </form>
     );
     if (!this.props.user) {
       return <div>{this.props.route}</div>
     }
     return (
-      <div className='home-container'>
-        <h2>Welcome {this.props.user.displayName}</h2>
-        <div className='arguments-box arguments-participating'>
-          <h3>Arguments You're Having</h3>
-          <div className='arguments-list arguments-participating-list'>
-            {argParticipating && argParticipating.map(argumentKey => {
-              return this.state[argumentKey] && (
-                <Link
-                  key={argumentKey}
-                  className="argument-link"
-                  to={`duel/${argumentKey}`}
-                >
-                  <div className="argument-title">{this.state[argumentKey].title}</div>
-                  <div>Participants: {this.state[argumentKey].originator.displayName}</div>
-                </Link>
-              );
-            })}
-          </div>
-          {this.state.startArgumentFormOpen && startArgumentForm}
-          {!this.state.startArgumentFormOpen && openStartArgumentFormButton}
+      <div className="container">
+
+        <div className="content">
+          <p className="title is-size-3">Welcome {this.props.user.displayName}</p>
         </div>
-        <div className='arguments-box arguments-spectating'>
-          <h3>Arguments You're Watching</h3>
+          
+        <div className="content">
+          <p className="title is-size-4 has-text-primary">Arguments You're Having</p>
+        </div>
+
+        <div className="columns is-multiline">
+          {argParticipating && argParticipating.map(argumentKey => {
+            return this.state[argumentKey] && (
+              <div className="column is-one-third" key={argumentKey}>
+                <div className="card">
+                  <div className="card-header has-background-primary">
+                    <p className="card-header-title is-size-5 has-text-white">
+                      {this.state[argumentKey].title}
+                    </p>
+                  </div>
+                  <div className="card-content">
+                    <Link
+                      className="argument-link"
+                      to={`duel/${argumentKey}`}
+                    >
+                      <div>Participants: {this.state[argumentKey].originator.displayName}</div>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+          <div className="column is-one-third">
+            <div className="card">
+              <div className="card-header has-background-info">
+                <p className="card-header-title is-size-5 has-text-white">
+                  Start a new argument
+                </p>
+              </div>
+              <div className="card-content">
+                {startArgumentForm}
+              </div>
+            </div>
+          </div>
+        </div>
+          
+        <div className="content">
+          <p className="title is-size-4 has-text-primary">Arguments You're Watching</p>
         </div>
       </div>
     );

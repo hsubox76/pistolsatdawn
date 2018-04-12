@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bulma": "^0.6.2",
     "firebase": "^3.7.1",
     "node-sass": "^4.5.0",
     "npm-run-all": "^4.0.2",

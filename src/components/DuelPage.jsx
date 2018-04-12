@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import DebateBox from './DebateBox';
 import SpectatorBox from './SpectatorBox';
 import firebase from 'firebase';
-import '../styles/DuelPage.css';
 
 class DuelPage extends Component {
   constructor(props) {
@@ -24,7 +23,7 @@ class DuelPage extends Component {
       return <div className='duel-container'>loading...</div>;
     }
     return (
-      <div className='duel-container'>
+      <div className='columns'>
         <DebateBox argument={this.state.argument} />
         <SpectatorBox />
       </div>

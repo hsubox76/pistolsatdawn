@@ -4,9 +4,8 @@ import {
   Route,
   Redirect
 } from 'react-router-dom';
+import './index.scss';
 import firebase from 'firebase';
-
-import './App.css';
 import Navbar from './components/Navbar';
 import DuelPage from './components/DuelPage';
 import LoginPage from './components/LoginPage';
@@ -58,13 +57,14 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className="app">
+        <div className="columns">
+          <div className="column">
           <Navbar
             setPage={(page) => this.setState({ page })}
             user={this.state.user}
             onLogout={() => firebase.auth().signOut()}
           />
-          <div className="main-container">
+          <section className="section">
             <Route exact path="/" render={() => {
               if (!this.state.finishedAuthCheck) {
                 return <div>loading...</div>;
@@ -87,6 +87,7 @@ class App extends Component {
             <Route path="/duel/:id" render={({match}) => (
               <DuelPage argumentId={match.params.id} />
             )} />
+          </section>
           </div>
         </div>
       </Router>

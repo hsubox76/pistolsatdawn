@@ -1,14 +1,37 @@
-html {
-  height: 100%;
+@import '../node_modules/bulma/sass/utilities/initial-variables.sass';
+@import '../node_modules/bulma/sass/utilities/functions.sass';
+@import './styles/colors.scss';
+
+$primary: $turquoise;
+// $info: $peter-river;
+$family-sans-serif: Roboto;
+
+@import '../node_modules/bulma/sass/utilities/derived-variables.sass';
+@import '../node_modules/bulma/bulma.sass';
+
+.has-background-primary {
+  background-color: $primary;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: Roboto, Helvetica, Arial, sans-serif;
-  height: 100%;
+.has-background-warning {
+  background-color: $warning;
 }
 
-#root {
-  height: 100%;
+.has-background-info {
+  background-color: $info;
 }
+
+// html {
+//   height: 100%;
+// }
+
+// body {
+//   margin: 0;
+//   padding: 0;
+//   font-family: Roboto, Helvetica, Arial, sans-serif;
+//   height: 100%;
+// }
+
+// #root {
+//   height: 100%;
+// }

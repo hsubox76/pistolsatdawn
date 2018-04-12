@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import '../styles/LoginPage.css';
 import firebase from 'firebase';
 
 class LoginPage extends Component {
@@ -56,49 +55,74 @@ class LoginPage extends Component {
     const isLoginMode = this.state.mode === 'login';
     const loginText = isLoginMode
       ? (
-        <div className='login-text'>
-          <div className='form-title'>log in</div>
-          <a className='click' onClick={e => this.onModeClick(e, 'register')}>
-          new? <b>create an account</b>.
-          </a>
+        <div className='content'>
+          <p className='title is-size-3'>log in</p>
+          <p className='subtitle is-size-5'>
+          new? <a onClick={e => this.onModeClick(e, 'register')}><b>create an account</b></a>.
+          </p>
         </div>
       )
       : (
-        <div className='login-text'>
-          <div className='form-title'>create an account</div>
-          <a className='click' onClick={e => this.onModeClick(e, 'login')}>
-          already have one? <b>go to log in page</b>.
-          </a>
+        <div className='content'>
+          <p className='title is-size-3'>create an account</p>
+          <p className='subtitle is-size-5'>
+          already have one? <a onClick={e => this.onModeClick(e, 'login')}><b>go to log in page</b></a>.
+          </p>
         </div>
       );
     return (
-      <div className='login-container'>
-        <form className='login-box' onSubmit={this.onFormSubmit}>
-          {loginText}
-          {!isLoginMode && 
-          <input
-            type='text'
-            placeholder='display name'
-            ref={node => this._displayName = node}
-          />}
-          <input
-            type='email'
-            placeholder='email address'
-            ref={node => this._email = node}
-          />
-          <input
-            type='password'
-            placeholder='password'
-            ref={node => this._password1 = node}
-          />
-          {!isLoginMode && 
-          <input
-            type='password'
-            placeholder='confirm password'
-            ref={node => this._password2 = node}
-          />}
-          <button className='button'>submit</button>
-        </form>
+      <div className="container">
+        <div className="columns is-centered">
+          <div className="column is-5">
+            <form className="box" onSubmit={this.onFormSubmit}>
+              {loginText}
+              <div className="content">
+                {!isLoginMode && (
+                  <div className="field">
+                    <label className="label">Display name</label>
+                    <div className="control">
+                      <input
+                        className="input"
+                        type="text"
+                        placeholder='Socrates'
+                        ref={node => node && (this._displayName = node)}
+                      />
+                    </div>
+                  </div>
+                )}
+                <div className="field">
+                  <label className="label">Email address</label>
+                  <p className="control">
+                    <input
+                    className="input"
+                      type='email'
+                      placeholder='example@exampleco.net'
+                      ref={node => node && (this._email = node)}
+                    />
+                  </p>
+                </div>
+                <div className="field">
+                  <label className="label">Password</label>
+                  <input
+                    className="input"
+                    type='password'
+                    ref={node => node && (this._password1 = node)}
+                  />
+                </div>
+                {!isLoginMode && (
+                  <div className="field">
+                    <label className="label">Confirm Password</label>
+                    <input
+                      className="input"
+                      type='password'
+                      ref={node => node && (this._password2 = node)}
+                    />
+                  </div>)}
+                <button className='button'>submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     );
   }
