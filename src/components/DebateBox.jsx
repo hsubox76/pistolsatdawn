@@ -32,7 +32,7 @@ class DebateBox extends React.Component {
         <div className="card">
           <div className="card-header has-background-primary">
             <p className="card-header-title has-text-white is-size-4">
-              {argument.title}
+              "the dialogue"
             </p>
           </div>
           <div className="card-content">
@@ -41,7 +41,8 @@ class DebateBox extends React.Component {
             </div>
             {argument.statements && _.map(argument.statements, (statement, key) => {
               const classes = ['box'];
-              if (statement.user === argument.originator) {
+              const isOriginator = statement.user === argument.originator;
+              if (isOriginator) {
                 classes.push('has-text-light');
                 classes.push('has-background-1');
               } else {
@@ -50,7 +51,8 @@ class DebateBox extends React.Component {
               }
               return (
                 <div key={key} className={classes.join(' ')}>
-                  {statement.content}
+                  <span>{isOriginator && this.props.originator && this.props.originator.displayName}: </span>
+                  <span>{statement.content}</span>
                 </div>
               );
             })}

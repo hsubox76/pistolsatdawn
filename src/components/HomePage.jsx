@@ -118,7 +118,7 @@ class HomePage extends Component {
                     >
                       Go to argument
                     </Link>
-                    <p>Last statement: {argument.statements ? _.last(argument.statements).content : 'none'}</p>
+                    <p>Last statement: {_.get(argument.statements, 'length') > 0 ? _.last(argument.statements).content : 'none'}</p>
                     <p>Participants: {argument.originator.displayName}</p>
                   </div>
                 </div>
