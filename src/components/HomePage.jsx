@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router-dom';
 import firebase from 'firebase';
+import _ from 'lodash';
 
 class HomePage extends Component {
   constructor(props) {
@@ -11,20 +12,31 @@ class HomePage extends Component {
   }
   componentDidMount() {
     const db = firebase.database();
-    const dbArguments = firebase.database().ref('arguments');
+    const dbArguments = db.ref('arguments');
     const argParticipating = this.props.userData.argumentsParticipating || [];
     argParticipating.forEach(argKey => {
       const argument = dbArguments.child(argKey);
       argument.on('value', (argSnap) => {
         if (argSnap.val()) {
-          const argumentData = argSnap.val();
-          db.ref(`users/${argumentData.originator}`).once('value', userSnap => {
+          const argument = argSnap.val();
+          argument.statements = _.map(argument.statements, (statement, key) => {
+            return _.assign({}, statement, { id: key });
+          });
+          db.ref(`users/${argument.originator}`).once('value', userSnap => {
             if (userSnap.val()) {
-              this.setState({ [argKey]: Object.assign({}, argumentData, { originator: userSnap.val() }) });
+              this.setState({ [argKey]: Object.assign({}, argument, { originator: userSnap.val() }) });
             }
           });
         }
       });
+    });
+  }
+  componentWillUnmount() {
+    const dbArguments = firebase.database().ref('arguments');
+    const argParticipating = this.props.userData.argumentsParticipating || [];
+    argParticipating.forEach(argKey => {
+      const argument = dbArguments.child(argKey);
+      argument.off();
     });
   }
   handleStartArgument() {
@@ -37,7 +49,11 @@ class HomePage extends Component {
     }).key;
     db.ref(`arguments/${newArgumentKey}`).on('value', snapshot => {
       if (snapshot.val()) {
-        this.setState({ [newArgumentKey]: snapshot.val() });
+        const argument = snapshot.val();
+        argument.statements = _.map(argument.statements, (statement, key) => {
+          return _.assign({}, statement, { id: key });
+        });
+        this.setState({ [newArgumentKey]: argument });
       }
     });
     db.ref(`users/${this.props.user.uid}/argumentsParticipating`)
@@ -83,12 +99,16 @@ class HomePage extends Component {
 
         <div className="columns is-multiline">
           {argParticipating && argParticipating.map(argumentKey => {
-            return this.state[argumentKey] && (
+            const argument = this.state[argumentKey];
+            if (argument) {
+              console.log(argument.statements);
+            }
+            return argument && (
               <div className="column is-one-third" key={argumentKey}>
                 <div className="card">
                   <div className="card-header has-background-primary">
                     <p className="card-header-title is-size-5 has-text-white">
-                      {this.state[argumentKey].title}
+                      {argument.title}
                     </p>
                   </div>
                   <div className="card-content">
@@ -96,8 +116,10 @@ class HomePage extends Component {
                       className="argument-link"
                       to={`duel/${argumentKey}`}
                     >
-                      <div>Participants: {this.state[argumentKey].originator.displayName}</div>
+                      Go to argument
                     </Link>
+                    <p>Last statement: {argument.statements ? _.last(argument.statements).content : 'none'}</p>
+                    <p>Participants: {argument.originator.displayName}</p>
                   </div>
                 </div>
               </div>

@@ -24,7 +24,10 @@ class DuelPage extends Component {
     }
     return (
       <div className='columns'>
-        <DebateBox argument={this.state.argument} />
+        <DebateBox
+          user={this.props.user}
+          argument={Object.assign({}, this.state.argument, { id: this.props.argumentId })}
+        />
         <SpectatorBox />
       </div>
     );

@@ -9,6 +9,9 @@ $family-sans-serif: Roboto;
 @import '../node_modules/bulma/sass/utilities/derived-variables.sass';
 @import '../node_modules/bulma/bulma.sass';
 
+$person-1: $grey;
+$person-2: $wet-asphalt;
+
 .has-background-primary {
   background-color: $primary;
 }
@@ -19,6 +22,14 @@ $family-sans-serif: Roboto;
 
 .has-background-info {
   background-color: $info;
+}
+
+.has-background-1 {
+  background-color: $person-1;
+}
+
+.has-background-2 {
+  background-color: $person-2;
 }
 
 // html {

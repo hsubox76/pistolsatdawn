@@ -85,7 +85,7 @@ class App extends Component {
               ? <Redirect to='/' />
               : <LoginPage />} />
             <Route path="/duel/:id" render={({match}) => (
-              <DuelPage argumentId={match.params.id} />
+              <DuelPage argumentId={match.params.id} user={this.state.user} />
             )} />
           </section>
           </div>

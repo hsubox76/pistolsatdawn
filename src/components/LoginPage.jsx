@@ -7,13 +7,12 @@ class LoginPage extends Component {
     this.state = {
       mode: 'login'
     };
-    this.onFormSubmit = this.onFormSubmit.bind(this);
   }
   onModeClick(e, mode) {
     e.preventDefault();
     this.setState({ mode });
   }
-  onFormSubmit(e) {
+  onFormSubmit = (e) => {
     e.preventDefault();
     if (this.state.mode === 'register' && this._password1.value === this._password2.value) {
       firebase.auth()
